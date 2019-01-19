@@ -1,5 +1,6 @@
 package com.hunsley.async.aggregator.client;
 
+import javafx.util.Pair;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,9 @@ public class AccountClient {
     }
 
     @Async
-    public CompletableFuture<Map<String, Double>> getAccount(AccountType type) {
-        StringBuffer builder = new StringBuffer(baseUrl).append("/").append(type.name());
-        URI uri = URI.create(builder.toString());
-        Map<String, Double> account = restTemplate.getForEntity(uri, Map.class).getBody();
+    public CompletableFuture<Pair<String, Double>> getAccount(AccountType type) {
+        URI uri = URI.create(baseUrl + "/" + type.name());
+        Pair<String, Double> account = restTemplate.getForEntity(uri, Pair.class).getBody();
         return CompletableFuture.completedFuture(account);
     }
 }
