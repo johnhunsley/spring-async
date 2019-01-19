@@ -1,0 +1,25 @@
+package com.hunsley.async.aggregator.controller;
+
+
+import com.hunsley.async.aggregator.ConsolidatedAccount;
+import com.hunsley.async.aggregator.service.AccountConsolidationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController
+@RequestMapping("asyncbank/")
+public class ConsolidatedAccountController {
+
+    @Autowired
+    private AccountConsolidationService accountConsolidationService;
+
+    @RequestMapping(value = "account/", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<ConsolidatedAccount> getConsolidatedAccount() {
+        return new ResponseEntity<>(accountConsolidationService.consolidateAccounts(), HttpStatus.OK);
+    }
+}
