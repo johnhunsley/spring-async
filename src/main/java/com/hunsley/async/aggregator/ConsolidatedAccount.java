@@ -1,7 +1,11 @@
 package com.hunsley.async.aggregator;
 
+import com.hunsley.async.Account;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * <p>
@@ -11,26 +15,26 @@ import java.util.Map;
  * @author jphunsley@gmail.com
  */
 public class ConsolidatedAccount {
-    private Map<String, Double> accounts;
+    private Set<Account> accounts;
 
     public ConsolidatedAccount() {}
 
-    public ConsolidatedAccount(Map<String, Double> accounts) {
+    public ConsolidatedAccount(Set<Account> accounts) {
         this.accounts = accounts;
     }
 
 
-    public Map<String, Double> getAccounts() {
+    public Set<Account> getAccounts() {
         return accounts;
     }
 
-    public void setAccounts(Map<String, Double> accounts) {
+    public void setAccounts(Set<Account> accounts) {
         this.accounts = accounts;
     }
 
-    public void put(String key, Double value) {
-        if(accounts == null) accounts = new HashMap<>();
+    public void add(Account account) {
+        if(accounts == null) accounts = new HashSet<>();
 
-        accounts.put(key, value);
+        accounts.add(account);
     }
 }

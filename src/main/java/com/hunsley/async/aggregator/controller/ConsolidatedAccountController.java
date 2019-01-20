@@ -20,7 +20,7 @@ public class ConsolidatedAccountController {
     @Autowired
     private AccountConsolidationService accountConsolidationService;
 
-    @RequestMapping(value = "account/", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "account", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<ConsolidatedAccount> getConsolidatedAccount() throws ExecutionException, InterruptedException {
         return new ResponseEntity<>(accountConsolidationService.consolidateAccounts(), HttpStatus.OK);
     }

@@ -1,5 +1,6 @@
 package com.hunsley.async.aggregator.service;
 
+import com.hunsley.async.Account;
 import com.hunsley.async.aggregator.ConsolidatedAccount;
 import com.hunsley.async.aggregator.client.AccountClient;
 import com.hunsley.async.AccountType;
@@ -43,7 +44,7 @@ public class AccountConsolidationService {
         Collection<CompletableFuture> futures = new LinkedList<>();
 
         for(AccountType type : AccountType.values()) {
-            CompletableFuture<Pair<String, Double>> future = client.getAccount(type);
+            CompletableFuture<Account> future = client.getAccount(type);
             futures.add(future);
         }
 
@@ -55,7 +56,7 @@ public class AccountConsolidationService {
     /**
      * <p>
      *     Consolidates the data from the given completed {@link CompletableFuture} instances
-     *     into a {@link ConsolidatedAccount} instance.     *
+     *     into a {@link ConsolidatedAccount} instance.
      * </p>
      * @param futures
      * @return {@link ConsolidatedAccount}
@@ -63,8 +64,8 @@ public class AccountConsolidationService {
     private ConsolidatedAccount consolidateFutures(Collection<CompletableFuture> futures) throws ExecutionException, InterruptedException {
         ConsolidatedAccount consolidatedAccount = new ConsolidatedAccount();
 
-        for(CompletableFuture<Pair<String, Double>> future : futures) {
-            consolidatedAccount.put(future.get().getKey(), future.get().getValue());
+        for(CompletableFuture<Account> future : futures) {
+            consolidatedAccount.add(future.get());
         }
 
         return consolidatedAccount;

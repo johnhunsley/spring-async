@@ -1,5 +1,6 @@
 package com.hunsley.async.aggregator.client;
 
+import com.hunsley.async.Account;
 import com.hunsley.async.AccountType;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,9 +33,9 @@ public class AccountClient {
     }
 
     @Async
-    public CompletableFuture<Pair<String, Double>> getAccount(AccountType type) {
-        URI uri = URI.create(baseUrl + "/" + type.name());
-        Pair<String, Double> account = restTemplate.getForEntity(uri, Pair.class).getBody();
+    public CompletableFuture<Account> getAccount(AccountType type) {
+        URI uri = URI.create(baseUrl + "?type=" + type.name());
+        Account account = restTemplate.getForEntity(uri, Account.class).getBody();
         return CompletableFuture.completedFuture(account);
     }
 }
