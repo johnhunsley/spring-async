@@ -1,4 +1,4 @@
-package com.hunsley.async.aggregator;
+package com.hunsley.async;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

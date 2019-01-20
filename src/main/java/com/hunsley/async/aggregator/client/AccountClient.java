@@ -1,5 +1,6 @@
 package com.hunsley.async.aggregator.client;
 
+import com.hunsley.async.AccountType;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;

@@ -2,7 +2,7 @@ package com.hunsley.async.aggregator.service;
 
 import com.hunsley.async.aggregator.ConsolidatedAccount;
 import com.hunsley.async.aggregator.client.AccountClient;
-import com.hunsley.async.aggregator.client.AccountType;
+import com.hunsley.async.AccountType;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -24,7 +24,7 @@ import java.util.concurrent.ExecutionException;
  * @author jphunsley@gmail.com
  */
 @Service
-@Scope(value = "request")
+@Scope(value = "prototype")
 public class AccountConsolidationService {
 
     @Autowired
