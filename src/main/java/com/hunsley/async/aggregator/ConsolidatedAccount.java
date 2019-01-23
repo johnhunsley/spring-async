@@ -2,10 +2,8 @@ package com.hunsley.async.aggregator;
 
 import com.hunsley.async.Account;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * <p>
@@ -14,7 +12,9 @@ import java.util.Set;
  * </p>
  * @author jphunsley@gmail.com
  */
-public class ConsolidatedAccount {
+public class ConsolidatedAccount implements Serializable {
+    private static final long serialVersionUID = 42L;
+
     private Set<Account> accounts;
 
     public ConsolidatedAccount() {}
@@ -37,4 +37,25 @@ public class ConsolidatedAccount {
 
         accounts.add(account);
     }
+
+    public void addAll(Collection<Account> col) {
+        if(accounts == null) accounts = new HashSet<>();
+
+        accounts.addAll(col);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ConsolidatedAccount that = (ConsolidatedAccount) o;
+        return Objects.equals(accounts, that.accounts);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(accounts);
+    }
+
+
 }

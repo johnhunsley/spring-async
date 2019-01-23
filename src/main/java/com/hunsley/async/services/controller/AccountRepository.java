@@ -27,7 +27,7 @@ import java.util.List;
  * </p>
  * @author jphunsley@gmail.com
  */
-@RepositoryRestResource(collectionResourceRel = "account", path = "accounts")
+@RepositoryRestResource(collectionResourceRel = "accounts", path = "accounts")
 public interface AccountRepository extends PagingAndSortingRepository<Account, Long> {
 
     /**

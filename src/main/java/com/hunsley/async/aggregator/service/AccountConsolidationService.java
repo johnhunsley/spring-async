@@ -4,13 +4,11 @@ import com.hunsley.async.Account;
 import com.hunsley.async.aggregator.ConsolidatedAccount;
 import com.hunsley.async.aggregator.client.AccountClient;
 import com.hunsley.async.AccountType;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -41,16 +39,16 @@ public class AccountConsolidationService {
      * @throws InterruptedException
      */
     public ConsolidatedAccount consolidateAccounts() throws ExecutionException, InterruptedException {
-        Collection<CompletableFuture> futures = new LinkedList<>();
+        Set<CompletableFuture> accounts = new HashSet<>();
 
         for(AccountType type : AccountType.values()) {
-            CompletableFuture<Account> future = client.getAccount(type);
-            futures.add(future);
+            CompletableFuture<List> futures = client.getAccounts(type);
+            accounts.add(futures);
         }
 
-        CompletableFuture.allOf(futures.toArray(new CompletableFuture[AccountType.values().length])).join();
+        CompletableFuture.allOf(accounts.toArray(new CompletableFuture[AccountType.values().length])).join();
 
-        return consolidateFutures(futures);
+        return consolidateFutures(accounts);
     }
 
     /**
@@ -64,8 +62,8 @@ public class AccountConsolidationService {
     private ConsolidatedAccount consolidateFutures(Collection<CompletableFuture> futures) throws ExecutionException, InterruptedException {
         ConsolidatedAccount consolidatedAccount = new ConsolidatedAccount();
 
-        for(CompletableFuture<Account> future : futures) {
-            consolidatedAccount.add(future.get());
+        for(CompletableFuture<List> future : futures) {
+            consolidatedAccount.addAll(future.get());
         }
 
         return consolidatedAccount;

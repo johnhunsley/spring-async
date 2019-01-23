@@ -6,11 +6,15 @@ import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Scope;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -33,9 +37,9 @@ public class AccountClient {
     }
 
     @Async
-    public CompletableFuture<Account> getAccount(AccountType type) {
+    public CompletableFuture<List> getAccounts(AccountType type) {
         URI uri = URI.create(baseUrl + "?type=" + type.name());
-        Account account = restTemplate.getForEntity(uri, Account.class).getBody();
-        return CompletableFuture.completedFuture(account);
+        ResponseEntity<ServicesResponse<Account>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<ServicesResponse<Account>>(){});
+        return CompletableFuture.completedFuture(response.getBody().getEmbeddedItems());
     }
 }

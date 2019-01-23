@@ -1,5 +1,7 @@
 package com.hunsley.async;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,6 +18,7 @@ import java.util.Objects;
  * @author johnhunsley
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Account implements Serializable {
     private static final long serialVersionUID = 42L;
 
@@ -62,7 +65,7 @@ public class Account implements Serializable {
         Account account = (Account) o;
         return accountId == account.accountId &&
                 accountType == account.accountType &&
-                balance.equals(account.balance);
+                Objects.equals(balance, account.balance);
     }
 
     @Override
