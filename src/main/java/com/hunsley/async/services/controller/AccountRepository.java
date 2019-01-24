@@ -32,7 +32,7 @@ public interface AccountRepository extends PagingAndSortingRepository<Account, L
 
     /**
      * <p>
-     *     GET account/search/findByAccountType?type=TYPE
+     *     GET accounts/search/findByAccountType?type=TYPE
      *
      *     where TYPE is an enumerated {@link AccountType}
      * </p>
