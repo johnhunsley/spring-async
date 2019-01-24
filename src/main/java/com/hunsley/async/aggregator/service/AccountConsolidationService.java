@@ -33,7 +33,7 @@ public class AccountConsolidationService {
 
     /**
      * <p>
-     *      Consolidates the data accessed from resources defined by {@link AccountType}s
+     *    Consolidates the data accessed from resources defined by {@link AccountType}s
      * </p>
      * @return an instance of {@link ConsolidatedAccount} which contains the data sourced from the services, accessed by
      * the {@link AccountClient} as defined by the complete list of enumerated {@link AccountType}s
