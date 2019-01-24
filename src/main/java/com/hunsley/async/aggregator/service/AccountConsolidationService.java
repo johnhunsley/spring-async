@@ -6,7 +6,9 @@ import com.hunsley.async.aggregator.client.AccountClient;
 import com.hunsley.async.AccountType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -23,7 +25,7 @@ import java.util.concurrent.ExecutionException;
  * @author jphunsley@gmail.com
  */
 @Service
-@Scope(value = "prototype")
+@Scope(value = WebApplicationContext.SCOPE_REQUEST, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class AccountConsolidationService {
 
     @Autowired

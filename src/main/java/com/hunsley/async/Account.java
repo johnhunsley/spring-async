@@ -14,6 +14,11 @@ import java.util.Objects;
  *
  *     example:
  *
+ *     {
+ * 	       "accountType":"CURRENT",
+ * 	       "balance":100.0
+ *     }
+ *
  * </p>
  * @author johnhunsley
  */
