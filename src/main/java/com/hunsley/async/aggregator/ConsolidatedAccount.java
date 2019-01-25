@@ -1,5 +1,6 @@
 package com.hunsley.async.aggregator;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hunsley.async.Account;
 
 import java.io.Serializable;
@@ -12,17 +13,31 @@ import java.util.*;
  * </p>
  * @author jphunsley@gmail.com
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConsolidatedAccount implements Serializable {
     private static final long serialVersionUID = 42L;
 
+    /**
+     * The time taken to fetch the accounts which are consolidated.
+     * Used to demo the reduced time taken in asynchronous operations when
+     * consolidating the account information from remote sources.
+     */
+    private final long consolidationTime;
+
     private Set<Account> accounts;
 
-    public ConsolidatedAccount() {}
+    public ConsolidatedAccount(final long consolidationTime) {
+        this.consolidationTime = consolidationTime;
+    }
 
-    public ConsolidatedAccount(Set<Account> accounts) {
+    public ConsolidatedAccount(Set<Account> accounts, final long consolidationTime) {
+        this(consolidationTime);
         this.accounts = accounts;
     }
 
+    public long getConsolidationTime() {
+        return consolidationTime;
+    }
 
     public Set<Account> getAccounts() {
         return accounts;

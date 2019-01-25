@@ -43,6 +43,8 @@ public class AccountConsolidationService {
     public ConsolidatedAccount consolidateAccounts() throws ExecutionException, InterruptedException {
         Set<CompletableFuture> accounts = new HashSet<>();
 
+        final long start = System.currentTimeMillis();
+
         for(AccountType type : AccountType.values()) {
             CompletableFuture<List> futures = client.getAccounts(type);
             accounts.add(futures);
@@ -50,7 +52,7 @@ public class AccountConsolidationService {
 
         CompletableFuture.allOf(accounts.toArray(new CompletableFuture[AccountType.values().length])).join();
 
-        return consolidateFutures(accounts);
+        return consolidateFutures(accounts, System.currentTimeMillis() - start);
     }
 
     /**
@@ -61,8 +63,8 @@ public class AccountConsolidationService {
      * @param futures
      * @return {@link ConsolidatedAccount}
      */
-    private ConsolidatedAccount consolidateFutures(Collection<CompletableFuture> futures) throws ExecutionException, InterruptedException {
-        ConsolidatedAccount consolidatedAccount = new ConsolidatedAccount();
+    private ConsolidatedAccount consolidateFutures(Collection<CompletableFuture> futures, final long elaspedTime) throws ExecutionException, InterruptedException {
+        ConsolidatedAccount consolidatedAccount = new ConsolidatedAccount(elaspedTime);
 
         for(CompletableFuture<List> future : futures) {
             consolidatedAccount.addAll(future.get());
