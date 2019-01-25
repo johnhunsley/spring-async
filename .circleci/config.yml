@@ -42,5 +42,5 @@ jobs:
 
       # Upload test results
       - store_test_results:
-          path: /target/surefile-reports/
+          path: ~/target/surefire-reports/*.xml
 
