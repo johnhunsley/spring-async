@@ -40,3 +40,7 @@ jobs:
       # run tests!
       - run: mvn integration-test
 
+      # Upload test results
+      - store_test_results:
+          path: /target/surefile-reports/
+
