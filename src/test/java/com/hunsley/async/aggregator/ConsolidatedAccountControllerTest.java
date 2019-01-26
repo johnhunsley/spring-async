@@ -40,7 +40,7 @@ public class ConsolidatedAccountControllerTest {
         for(AccountType type : AccountType.values()) {
             List<Account> accounts = new LinkedList<>();
             //todo add some {@link Account} instances here
-            CompletableFuture<List> future = new CompletableFuture<>();
+            CompletableFuture<List<Account>> future = new CompletableFuture<>();
             future.complete(accounts);
             when(accountClient.getAccounts(type)).thenReturn(future);
         }

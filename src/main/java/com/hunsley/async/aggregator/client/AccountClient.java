@@ -2,15 +2,14 @@ package com.hunsley.async.aggregator.client;
 
 import com.hunsley.async.Account;
 import com.hunsley.async.AccountType;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -37,9 +36,23 @@ public class AccountClient {
     }
 
     @Async
-    public CompletableFuture<List> getAccounts(AccountType type) {
-        URI uri = URI.create(baseUrl + "?type=" + type.name());
-        ResponseEntity<ServicesResponse<Account>> response = restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<ServicesResponse<Account>>(){});
+    public CompletableFuture<List<Account>> getAccounts(AccountType type) {
+        URI uri = URI.create(baseUrl + "/search/findByAccountType?type=" + type.name());
+        ResponseEntity<ServicesResponse<Account>> response = restTemplate.exchange(uri, HttpMethod.GET, null,
+                new ParameterizedTypeReference<ServicesResponse<Account>>(){});
         return CompletableFuture.completedFuture(response.getBody().getEmbeddedItems());
     }
+
+    @Async
+    @Transactional
+    public CompletableFuture<Account> saveAccount(Account account) {
+        URI uri = URI.create(baseUrl);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<Account> entity = new HttpEntity<>(account, headers);
+        ResponseEntity<Account> response = restTemplate.postForEntity(uri, entity, Account.class);
+        return CompletableFuture.completedFuture(response.getBody());
+    }
+
+
 }
