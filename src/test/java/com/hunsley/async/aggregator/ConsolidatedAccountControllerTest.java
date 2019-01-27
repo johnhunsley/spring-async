@@ -36,7 +36,7 @@ public class ConsolidatedAccountControllerTest {
      * </p>
      */
     @Before
-    public void initTestData() {
+    public void initTestData() throws InterruptedException {
         for(AccountType type : AccountType.values()) {
             List<Account> accounts = new LinkedList<>();
             //todo add some {@link Account} instances here

@@ -58,7 +58,7 @@ public class AccountConsolidationService {
             consolidatedAccount.addAll(future.get());
         }
 
-        return consolidatedAccount;
+            return consolidatedAccount;
     }
 
 

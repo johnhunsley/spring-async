@@ -36,10 +36,11 @@ public class AccountClient {
     }
 
     @Async
-    public CompletableFuture<List<Account>> getAccounts(AccountType type) {
+    public CompletableFuture<List<Account>> getAccounts(AccountType type) throws InterruptedException {
         URI uri = URI.create(baseUrl + "/search/findByAccountType?type=" + type.name());
         ResponseEntity<ServicesResponse<Account>> response = restTemplate.exchange(uri, HttpMethod.GET, null,
                 new ParameterizedTypeReference<ServicesResponse<Account>>(){});
+        Thread.sleep(2000L);
         return CompletableFuture.completedFuture(response.getBody().getEmbeddedItems());
     }
 
