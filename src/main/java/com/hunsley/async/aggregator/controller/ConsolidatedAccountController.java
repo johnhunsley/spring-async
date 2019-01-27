@@ -25,9 +25,4 @@ public class ConsolidatedAccountController {
     public ResponseEntity<ConsolidatedAccount> getConsolidatedAccount() throws ExecutionException, InterruptedException {
         return new ResponseEntity<>(accountConsolidationService.getConsolidateAccounts(), HttpStatus.OK);
     }
-
-    @RequestMapping(value = "accounts", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<ConsolidatedAccount> saveConsolidatedAccount(@RequestBody ConsolidatedAccount consolidatedAccount) throws ExecutionException, InterruptedException {
-        return new ResponseEntity<>(accountConsolidationService.saveConsolidatedAccounts(consolidatedAccount), HttpStatus.ACCEPTED);
-    }
 }

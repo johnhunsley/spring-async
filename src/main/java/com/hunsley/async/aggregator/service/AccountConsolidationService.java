@@ -61,31 +61,4 @@ public class AccountConsolidationService {
             return consolidatedAccount;
     }
 
-
-    /**
-     * <p>
-     *     Iterates the {@link Set} of {@link Account} instances in the given {@link ConsolidatedAccount}
-     *     and persists each in an asynchronous call to the back end service via the {@link AccountClient}
-     * </p>
-     * @param consolidatedAccount
-     * @return
-     */
-    public ConsolidatedAccount saveConsolidatedAccounts(ConsolidatedAccount consolidatedAccount) throws ExecutionException, InterruptedException {
-        Set<CompletableFuture<Account>> accounts = new HashSet<>();
-        final long start = System.currentTimeMillis();
-
-        for(Account account : consolidatedAccount.getAccounts()) {
-            CompletableFuture<Account> future = client.saveAccount(account);
-            accounts.add(future);
-        }
-
-        CompletableFuture.allOf(accounts.toArray(new CompletableFuture[accounts.size()-1])).join();
-        ConsolidatedAccount returnable = new ConsolidatedAccount(System.currentTimeMillis() - start);
-
-        for(CompletableFuture<Account> future : accounts) {
-            returnable.add(future.get());
-        }
-
-        return returnable;
-    }
 }

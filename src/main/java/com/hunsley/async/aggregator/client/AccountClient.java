@@ -9,7 +9,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -43,17 +42,5 @@ public class AccountClient {
         Thread.sleep(2000L);
         return CompletableFuture.completedFuture(response.getBody().getEmbeddedItems());
     }
-
-    @Async
-    public CompletableFuture<Account> saveAccount(Account account) throws InterruptedException {
-        URI uri = URI.create(baseUrl);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Account> entity = new HttpEntity<>(account, headers);
-        ResponseEntity<Account> response = restTemplate.postForEntity(uri, entity, Account.class);
-        Thread.sleep(2000L);
-        return CompletableFuture.completedFuture(response.getBody());
-    }
-
 
 }
