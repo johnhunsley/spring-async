@@ -45,13 +45,13 @@ public class AccountClient {
     }
 
     @Async
-    @Transactional
-    public CompletableFuture<Account> saveAccount(Account account) {
+    public CompletableFuture<Account> saveAccount(Account account) throws InterruptedException {
         URI uri = URI.create(baseUrl);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Account> entity = new HttpEntity<>(account, headers);
         ResponseEntity<Account> response = restTemplate.postForEntity(uri, entity, Account.class);
+        Thread.sleep(2000L);
         return CompletableFuture.completedFuture(response.getBody());
     }
 
