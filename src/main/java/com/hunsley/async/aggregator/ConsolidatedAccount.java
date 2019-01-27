@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * <p>
- *  A consolidated view of a simple representation of a bank account which consists of an account type
+ *  A consolidated view of simple representations of a bank account which consists of an account type
  *  and a balance represented as a Double.
  * </p>
  * @author jphunsley@gmail.com
