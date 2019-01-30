@@ -5,11 +5,15 @@ import com.hunsley.async.Account;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * <p>
- *  A consolidated view of simple representations of a bank account which consists of an account type
- *  and a balance represented as a Double.
+ *  A consolidated view of simple representations of bank accounts which are provided in a Collection
+ *  of completed {@link CompletableFuture} instances which contain {@link Account}s. This view of consolidated
+ *  {@link Account} instances also contains the time taken to complete all the tasks to fetch the accounts purely
+ *  for demo of doing the underlying tasks asynchronously
  * </p>
  * @author jphunsley@gmail.com
  */
@@ -24,15 +28,28 @@ public class ConsolidatedAccount implements Serializable {
      */
     private final long consolidationTime;
 
-    private Set<Account> accounts;
+    private final Set<Account> accounts;
 
-    public ConsolidatedAccount(final long consolidationTime) {
+    /**
+     *
+     * @param consolidationTime
+     * @param futures
+     * @throws ExecutionException
+     * @throws InterruptedException if any of the give {@link CompletableFuture} instance are not done.
+     */
+    public ConsolidatedAccount(
+                final long consolidationTime,
+                final Collection<CompletableFuture<List<Account>>> futures)
+            throws ExecutionException, InterruptedException {
         this.consolidationTime = consolidationTime;
-    }
+        this.accounts = new HashSet<>();
 
-    public ConsolidatedAccount(Set<Account> accounts, final long consolidationTime) {
-        this(consolidationTime);
-        this.accounts = accounts;
+        for(CompletableFuture<List<Account>> future : futures) {
+
+            if(!future.isDone()) throw new InterruptedException(future.toString());
+
+            accounts.addAll(future.get());
+        }
     }
 
     public long getConsolidationTime() {
@@ -41,22 +58,6 @@ public class ConsolidatedAccount implements Serializable {
 
     public Set<Account> getAccounts() {
         return accounts;
-    }
-
-    public void setAccounts(Set<Account> accounts) {
-        this.accounts = accounts;
-    }
-
-    public void add(Account account) {
-        if(accounts == null) accounts = new HashSet<>();
-
-        accounts.add(account);
-    }
-
-    public void addAll(Collection<Account> col) {
-        if(accounts == null) accounts = new HashSet<>();
-
-        accounts.addAll(col);
     }
 
     @Override

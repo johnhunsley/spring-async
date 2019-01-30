@@ -34,7 +34,9 @@ public class AccountConsolidationService {
 
     /**
      * <p>
-     *    Consolidates the data accessed from resources defined by {@link AccountType}s
+     *    Consolidates the data accessed from resources defined by {@link AccountType}s concurrently.
+     *    Will wait until all concurrent requests by the {@link AccountClient} complete until consolidating
+     *    the returned data from each.
      * </p>
      * @return an instance of {@link ConsolidatedAccount} which contains the data sourced from the services, accessed by
      * the {@link AccountClient} as defined by the complete list of enumerated {@link AccountType}s
@@ -42,7 +44,7 @@ public class AccountConsolidationService {
      * @throws InterruptedException
      */
     public ConsolidatedAccount getConsolidateAccounts() throws ExecutionException, InterruptedException {
-        Set<CompletableFuture<List<Account>>> accounts = new HashSet<>();
+        Collection<CompletableFuture<List<Account>>> accounts = new HashSet<>();
 
         final long start = System.currentTimeMillis();
 
@@ -51,14 +53,8 @@ public class AccountConsolidationService {
             accounts.add(futures);
         }
 
-        CompletableFuture.allOf(accounts.toArray(new CompletableFuture[AccountType.values().length])).join();
-        ConsolidatedAccount consolidatedAccount = new ConsolidatedAccount(System.currentTimeMillis() - start);
-
-        for(CompletableFuture<List<Account>> future : accounts) {
-            consolidatedAccount.addAll(future.get());
-        }
-
-        return consolidatedAccount;
+        CompletableFuture.allOf(accounts.toArray(new CompletableFuture[accounts.size() - 1])).join();
+        return new ConsolidatedAccount(System.currentTimeMillis() - start, accounts);
     }
 
 }
