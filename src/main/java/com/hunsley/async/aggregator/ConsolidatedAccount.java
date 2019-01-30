@@ -65,13 +65,12 @@ public class ConsolidatedAccount implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ConsolidatedAccount that = (ConsolidatedAccount) o;
-        return Objects.equals(accounts, that.accounts);
+        return consolidationTime == that.consolidationTime &&
+                accounts.equals(that.accounts);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(accounts);
+        return Objects.hash(consolidationTime, accounts);
     }
-
-
 }
