@@ -2,6 +2,7 @@ package com.hunsley.async.aggregator.client;
 
 import com.hunsley.async.Account;
 import com.hunsley.async.AccountType;
+import com.hunsley.async.aggregator.client.response.ServicesResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Scope;

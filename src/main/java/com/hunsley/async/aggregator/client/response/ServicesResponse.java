@@ -1,4 +1,4 @@
-package com.hunsley.async.aggregator.client;
+package com.hunsley.async.aggregator.client.response;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public class ServicesResponse<T> implements Serializable {
 
     public List<T> getEmbeddedItems() {
         if(embedded == null) embedded = new Embedded<>();
-        return embedded.items;
+        return Collections.unmodifiableList(embedded.items);
     }
 }
 
