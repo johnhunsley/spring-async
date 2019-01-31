@@ -57,7 +57,7 @@ public class ConsolidatedAccount implements Serializable {
     }
 
     public Set<Account> getAccounts() {
-        return accounts;
+        return Collections.unmodifiableSet(accounts);
     }
 
     @Override
