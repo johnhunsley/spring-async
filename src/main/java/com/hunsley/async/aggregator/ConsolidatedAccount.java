@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
  * @author jphunsley@gmail.com
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ConsolidatedAccount implements Serializable {
+public final class ConsolidatedAccount implements Serializable {
     private static final long serialVersionUID = 42L;
 
     /**
