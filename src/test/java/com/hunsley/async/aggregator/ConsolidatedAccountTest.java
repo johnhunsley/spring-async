@@ -37,7 +37,7 @@ public class ConsolidatedAccountTest {
         futures.add(future1);
 
         try {
-            ConsolidatedAccount consolidatedAccount = new ConsolidatedAccount(100, futures);
+            new ConsolidatedAccount(100, futures);
         } catch (ExecutionException | InterruptedException e) {
             e.printStackTrace();
             fail();
@@ -64,7 +64,7 @@ public class ConsolidatedAccountTest {
 
 
         try {
-            ConsolidatedAccount consolidatedAccount = new ConsolidatedAccount(100, futures);
+            new ConsolidatedAccount(100, futures);
             fail();
 
         } catch (ExecutionException | InterruptedException e) {
